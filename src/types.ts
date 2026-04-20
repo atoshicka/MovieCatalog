@@ -5,16 +5,21 @@ export type MovieStatus = 'watched' | 'planned';
 export type MovieRating = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
 export interface Movie {
-  id: string;           // уникальный ID
+  id: string;           // id
   title: string;        // название фильма
   status: MovieStatus;  // статус (посмотрел/в планах)
   rating?: MovieRating; // оценка (только для просмотренных)
-  review?: string;      // отзыв (опционально)
+  review?: string;      // отзыв
   createdAt: Date;      // дата добавления
 }
 
 // создание фильма
-export type CreateMovieInput = Pick<Movie, 'title' | 'status'>;
+export type CreateMovieInput = {
+  title: string;        // название фильма
+  status: MovieStatus;  // статус (посмотрел/в планах)
+  rating?: MovieRating; // оценка
+  review?: string;      // отзыв
+};
 
 export interface CreateWatchedMovieInput extends CreateMovieInput {
   status: 'watched';
@@ -27,12 +32,11 @@ export interface UpdateMovieProgress extends Pick<Movie, 'status' | 'rating' | '
   status: 'watched';
 }
 
-export type MovieListItem = Pick<Movie, 'id' | 'title' | 'status' | 'rating' | 'createdAt'>;
+export type MovieListItem = Pick<Movie, 'id' | 'title' | 'status' | 'rating' | 'review' | 'createdAt'>;
 
 // статистика
 export interface CatalogStats {
-  total: number;
-  watched: number;
-  planned: number;
-  averageRating: number | null;
+  total: number;    // всего фильмов
+  watched: number;  // просмотрено
+  planned: number;  // в планах
 }
