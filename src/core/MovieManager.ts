@@ -4,7 +4,6 @@ import type {
   MovieStatus,
   CatalogStats,
   CreateMovieInput,
-  UpdateMovieProgress,
 } from '../types';
 
 function generateId(): string {
@@ -30,10 +29,6 @@ export class MovieManager {
 
     this.movies[index] = { ...this.movies[index], ...updates };
     return this.movies[index];
-  }
-
-  markAsWatched(id: string, progress: UpdateMovieProgress): Movie | null {
-    return this.updateMovie(id, progress);
   }
 
   deleteMovie(id: string): boolean {

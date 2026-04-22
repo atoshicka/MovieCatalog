@@ -29,7 +29,7 @@ export default function App() {
   }
 
   function handleMarkWatched(id: string, rating?: MovieRating, review?: string) {
-    movieManager.markAsWatched(id, {
+    movieManager.updateMovie(id, {
       status: 'watched',
       rating,
       review,

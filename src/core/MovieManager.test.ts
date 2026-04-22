@@ -31,17 +31,10 @@ describe('updateMovie', () => {
     expect(updated?.title).toBe('Inception 2');
   });
 
-  it('возвращает null если фильм не найден', () => {
-    const result = manager.updateMovie('несуществующий-id', { title: 'Тест' });
-
-    expect(result).toBeNull();
-  });
-});
-
-describe('markAsWatched', () => {
-  it('меняет статус на watched и сохраняет оценку', () => {
+  it('меняет статус на watched и сохраняет оценку (замена markAsWatched)', () => {
     const movie = manager.addMovie({ title: 'Dune', status: 'planned' });
-    const updated = manager.markAsWatched(movie.id, {
+
+    const updated = manager.updateMovie(movie.id, {
       status: 'watched',
       rating: 9,
       review: 'Отличный фильм',
@@ -50,6 +43,12 @@ describe('markAsWatched', () => {
     expect(updated?.status).toBe('watched');
     expect(updated?.rating).toBe(9);
     expect(updated?.review).toBe('Отличный фильм');
+  });
+
+  it('возвращает null если фильм не найден', () => {
+    const result = manager.updateMovie('несуществующий-id', { title: 'Тест' });
+
+    expect(result).toBeNull();
   });
 });
 
@@ -96,11 +95,12 @@ describe('getMovieList', () => {
 describe('getStats', () => {
   it('возвращает корректную статистику', () => {
     manager.addMovie({ title: 'Dune', status: 'planned' });
-    manager.addMovie({ title: 'Inception', status: 'watched' });
-    manager.markAsWatched(
-      manager.getMovieList('watched')[0].id,
-      { status: 'watched', rating: 8 }
-    );
+    const movie = manager.addMovie({ title: 'Inception', status: 'planned' });
+
+    manager.updateMovie(movie.id, { 
+      status: 'watched', 
+      rating: 8 
+    });
 
     const stats = manager.getStats();
 
